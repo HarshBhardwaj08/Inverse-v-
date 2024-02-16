@@ -10,6 +10,7 @@ public class PCmoveInputs
     float decceralation = 5.0f ;
     float runAcceleration;
     float runDecceleration;
+    float currentSpeed;
     public PCmoveInputs(Rigidbody2D rigidbody2D,float speed,float xInput) 
     { 
       this.Rigidbody2D = rigidbody2D;
@@ -17,34 +18,30 @@ public class PCmoveInputs
        
     }
 
-    public void updateMovements(float xInput,float val)
+    public void updateMovement(Transform transform, float xMovement , out float value)
     {
 
-        float inputX = xInput;
-        float targetspeed = inputX * speed;
-        float speedDiff = targetspeed - Rigidbody2D.velocity.x;
-        accerlation = (val * runAcceleration) / speed;
-        decceralation = (val * runDecceleration) / speed;
-         runDecceleration = Mathf.Clamp(decceralation, 0.01f, speed);
-        runAcceleration = Mathf.Clamp(accerlation, 0.01f, speed);
-        float accelrate = (Mathf.Abs(targetspeed) > 0.01f) ? accerlation : decceralation;
-        float movement = speedDiff *accelrate;
-        Rigidbody2D.AddForce(movement* Vector2.right,ForceMode2D.Force); 
-    }
-
-    public void updateMOvement(Transform transform, float intialMovement,float xMovement)
-    {
-      
-        intialMovement += Time.deltaTime-0.001f;
-      
-        if(intialMovement > speed)
+        if (xMovement != 0)
         {
-            intialMovement = speed;
+            if (currentSpeed > speed)
+            {
+                currentSpeed = speed;
+            }
+            else
+            {
+                currentSpeed += Time.deltaTime;
+            }
         }
-        if (xMovement == 0)
+        else
         {
-            intialMovement = 0;
+            currentSpeed = 0f;
         }
-        transform.Translate(new Vector3( intialMovement ,0,0));
+        value = currentSpeed;
+        float direction = Mathf.Sign(xMovement);
+        if (Mathf.Sign(transform.localScale.x) != direction)
+        {
+            currentSpeed = 0f;
+        }
+        transform.Translate(new Vector3(currentSpeed * direction * Time.deltaTime, 0, 0));
     }
 }

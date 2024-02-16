@@ -22,9 +22,6 @@ public class PlayerIdle : PlayerGrounded
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if(xInputs != 0 || rb.velocity.x > 0)
-        {
-            stateMachine.onChangeState(player.PlayerWalk);
-        }
+       
     }
 }

@@ -23,17 +23,14 @@ public class PlayerWalk : PlayerGrounded
     {
         base.OnUpdate();
         chnagestate += Time.deltaTime;
-        //     pCmoveInputs.updateMovements(xInputs, 10);
-      //  pCmoveInputs.updateMOvement(player.transform,player.val,xInputs);
-    
         player.SetDirection(dir);
-        if (chnagestate > 4.0f)
-        {
-            stateMachine.onChangeState(player.PlayerRun);
-        }
         if (xInputs == 0)
         {
             stateMachine.onChangeState(player.PlayerIdle);
+        }
+        if (chnagestate > 3.0f)
+        {
+            stateMachine.onChangeState(player.PlayerRun);
         }
     }
    

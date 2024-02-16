@@ -21,32 +21,12 @@ public class PlayerGrounded : PlayerState
     public override void OnUpdate()
     {
         base.OnUpdate();
-        updateMovement(player.transform, xInputs);
-
+       pCmoveInputs.updateMovement(player.transform,xInputs,out player.val);
+        if (xInputs != 0)
+        {
+            stateMachine.onChangeState(player.PlayerWalk);
+        }
+      
     }
-    public void updateMovement(Transform transform, float xMovement)
-    {
-       
-        if (xMovement != 0)
-        {
-            if (currentSpeed > player.speed)
-            {
-                currentSpeed = player.speed;
-            }else
-            {
-                currentSpeed += Time.deltaTime;
-            }
-        }
-        else
-        {
-            currentSpeed = 0f;
-        }
-        player.val = currentSpeed;
-        float direction = Mathf.Sign(xMovement);
-        if (Mathf.Sign(transform.localScale.x) != direction)
-        {
-            currentSpeed = 0f;
-        }
-        transform.Translate(new Vector3(currentSpeed*direction * Time.deltaTime, 0, 0));
-    }
+    
 }

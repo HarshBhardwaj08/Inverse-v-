@@ -21,8 +21,6 @@ public class PlayerRun : PlayerGrounded
     public override void OnUpdate()
     {
         base.OnUpdate();
-        // pCmoveInputs.updateMovements(xInputs, 25);
-     //   pCmoveInputs.updateMOvement(player.transform, 0.0f, xInputs);
         if (xInputs == 0)
         {   
             stateMachine.onChangeState(player.PlayerIdle);
