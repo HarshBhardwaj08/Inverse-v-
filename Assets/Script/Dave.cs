@@ -7,8 +7,6 @@ public class Dave : BasePlayer
     public override void Awake()
     {  
         base.Awake();
-       
-
     }
     public override void Start()
     {
@@ -21,6 +19,12 @@ public class Dave : BasePlayer
     { 
         base.Update();
         StateMachine.currentstate.OnUpdate();
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded() == true)
+        {
+            float velocity = Mathf.Sqrt(jumpHeight
+            * (m_Rigidbody2.gravityScale * Physics2D.gravity.y) * -2) * m_Rigidbody2.mass;
+            m_Rigidbody2.velocity = new Vector2 (0, velocity);
+        }
     }
    
 }

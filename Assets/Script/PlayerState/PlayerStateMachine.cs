@@ -14,7 +14,6 @@ public class PlayerStateMachine
     {
        this.currentstate .OnExit();
        this.currentstate = state;
-        currentstate.Onstart();
-
+        currentstate.Onstart(); 
     }
 }

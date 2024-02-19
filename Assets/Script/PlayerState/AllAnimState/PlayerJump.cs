@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDoubleJump : PlayerState
+public class PlayerJump : PlayerState
 {
-    public PlayerDoubleJump(BasePlayer player, PlayerStateMachine stateMachine, string animname) : base(player, stateMachine, animname)
+    public PlayerJump(BasePlayer player, PlayerStateMachine stateMachine, string animname) : base(player, stateMachine, animname)
     {
     }
 
@@ -16,11 +16,12 @@ public class PlayerDoubleJump : PlayerState
     public override void Onstart()
     {
         base.Onstart();
-        velocity = Mathf.Sqrt(player.jumpHeight
+       velocity = Mathf.Sqrt(player.jumpHeight
            * (rb.gravityScale * Physics2D.gravity.y) * -2) * rb.mass;
         Vector2 dir = new Vector2(Mathf.Cos(Mathf.Deg2Rad * player.angle), Mathf.Sin(Mathf.Deg2Rad * player.angle));
         Debug.Log(Mathf.Atan2(dir.y,dir.x)*Mathf.Rad2Deg);
-        player.m_Rigidbody2.velocity = new Vector2(dir.x, dir.y*(velocity*2));
+        player.m_Rigidbody2.velocity += dir*5*player.jumpHeight;
+       // rb.AddForce(dir * player.jumpHeight*5, ForceMode2D.Impulse);
     }
 
     public override void OnUpdate()
@@ -29,6 +30,10 @@ public class PlayerDoubleJump : PlayerState
         if (player.m_Rigidbody2.velocity.y < 0)
         {
             stateMachine.onChangeState(player.PlayerAirState);
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded() == false)
+        {
+            stateMachine.onChangeState(player.PlayerDoubleJump);
         }
     }
 }

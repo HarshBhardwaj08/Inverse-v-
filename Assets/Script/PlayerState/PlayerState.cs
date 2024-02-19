@@ -13,8 +13,10 @@ public class PlayerState
    protected PCmoveInputs pCmoveInputs {  get; set; } 
    protected  float speed {  get; private set; }
   protected float xInputs {  get; set; }
-   protected float dir {  get; private set; }
-    private float gravityStrength = 9.8f;
+    protected float dir {  get; private set; }
+    public float gravityStrength = 9.8f;
+    public float velocity;
+  
     public PlayerState (BasePlayer player, PlayerStateMachine stateMachine,string animname)
     {
         this.player = player;
@@ -24,7 +26,8 @@ public class PlayerState
         rb = player.m_Rigidbody2;
         speed = player.speed;
         pCmoveInputs = new PCmoveInputs (rb,speed,xInputs);
-       
+        dir = 1;
+      
     }
 
     public virtual void Onstart() 
@@ -41,8 +44,6 @@ public class PlayerState
     public virtual void OnUpdate()
     {
         xInputs = Input.GetAxis("Horizontal");
-        // player.SetVelocity(xInputs);
-      
         if (xInputs > 0)
         {
             dir = 1;
@@ -51,11 +52,7 @@ public class PlayerState
         {
           dir= -1;
         }
-        if(rb.velocity.y > 0)
-        {
-
-       player.transform.position += Vector3.down * gravityStrength * Time.deltaTime;
-        }
+        player.m_Animator.SetFloat("yVelocity", player.m_Rigidbody2.velocity.y);
     }
    
 }

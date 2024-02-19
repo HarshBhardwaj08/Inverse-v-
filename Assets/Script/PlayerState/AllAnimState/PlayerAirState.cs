@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAirState : MonoBehaviour
+public class PlayerAirState : PlayerState
 {
-    // Start is called before the first frame update
-    void Start()
+    public PlayerAirState(BasePlayer player, PlayerStateMachine stateMachine, string animname) : base(player, stateMachine, animname)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnExit()
     {
-        
+        base.OnExit();
+    }
+
+    public override void Onstart()
+    {
+        base.Onstart();
+      
+    }
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+       
+        if(player.isGrounded() == true)
+        {
+            stateMachine.onChangeState(player.PlayerIdle);
+        }
+
     }
 }

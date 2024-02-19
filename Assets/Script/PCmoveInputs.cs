@@ -44,4 +44,6 @@ public class PCmoveInputs
         }
         transform.Translate(new Vector3(currentSpeed * direction * Time.deltaTime, 0, 0));
     }
+  
+
 }

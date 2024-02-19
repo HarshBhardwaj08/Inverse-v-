@@ -17,6 +17,7 @@ public class PlayerIdle : PlayerGrounded
     public override void Onstart()
     {
         base.Onstart();
+       
     }
 
     public override void OnUpdate()
